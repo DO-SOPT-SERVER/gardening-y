@@ -3,9 +3,13 @@ package sopt.seminar2.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import sopt.seminar2.domain.Member;
 import sopt.seminar2.dto.request.MemberCreateRequest;
+import sopt.seminar2.dto.request.MemberProfileUpdateRequest;
 import sopt.seminar2.dto.response.MemberGetResponse;
+import sopt.seminar2.repository.MemberJpaRepository;
 import sopt.seminar2.service.MemberService;
 
 import java.net.URI;
@@ -41,4 +45,15 @@ public class MemberController {
         return ResponseEntity.created(location).build();
     }
 
+    @PatchMapping("/{memberId}")
+    public ResponseEntity<Void> updateMemberSoptInfo(@PathVariable Long memberId, @RequestBody MemberProfileUpdateRequest request) {
+        memberService.updateSOPT(memberId, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity deleteMember(@PathVariable Long memberId) {
+        memberService.deleteMember(memberId);
+        return ResponseEntity.noContent().build();
+    }
 }

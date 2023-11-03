@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sopt.seminar2.domain.Member;
+import sopt.seminar2.domain.SOPT;
 import sopt.seminar2.dto.request.MemberCreateRequest;
+import sopt.seminar2.dto.request.MemberProfileUpdateRequest;
 import sopt.seminar2.dto.response.MemberGetResponse;
 import sopt.seminar2.repository.MemberJpaRepository;
 
@@ -67,5 +69,15 @@ public class MemberService {
         return memberJpaRepository.save(member).getId().toString();
     }
 
+    @Transactional
+    public void updateSOPT(Long memberId, MemberProfileUpdateRequest request) {
+        Member member = memberJpaRepository.findByIdOrThrow(memberId);
+        member.updateSOPT(new SOPT(request.getGeneration(), request.getPart()));
+    }
 
+    @Transactional
+    public void deleteMember(Long memberId) {
+        Member member = memberJpaRepository.findByIdOrThrow(memberId);
+        memberJpaRepository.delete(member);
+    }
 }
