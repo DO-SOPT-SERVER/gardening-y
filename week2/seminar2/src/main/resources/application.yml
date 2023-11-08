@@ -8,7 +8,7 @@ spring:
   #      on-profile: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/dosopt
+    url: jdbc:mysql://localhost:3306/dosopt?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
     password: Abcd123!
 
