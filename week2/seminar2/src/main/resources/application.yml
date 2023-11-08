@@ -19,6 +19,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    defer-datasource-initialization: true
 
 # sql 파일 읽기
   sql:

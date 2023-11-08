@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sopt.seminar2.domain.Category;
 import sopt.seminar2.domain.Member;
 import sopt.seminar2.domain.Post;
 import sopt.seminar2.dto.request.PostCreateRequest;
@@ -20,6 +21,7 @@ import java.util.List;
 public class PostService {
     private final PostJpaRepository postJpaRepository;
     private final MemberJpaRepository memberJpaRepository;
+    private final CategoryService categoryService;
 
     @Transactional
     public String create(PostCreateRequest request, Long memberId) {
@@ -38,15 +40,15 @@ public class PostService {
         Post post = postJpaRepository.findById(postId).orElseThrow(
                 () -> new EntityNotFoundException("해당하는 게시글이 없습니다.")
         );
-        return PostGetResponse.of(post);
+        return PostGetResponse.of(post, getCategoryByPost(post));
     }
 
 
     public List<PostGetResponse> getPosts(Long memberId) {
         return postJpaRepository.findAllByMemberId(memberId)
                 .stream()
-//                .map(post -> PostGetResponse.of(post))
-                .map(PostGetResponse::of)
+                .map(post -> PostGetResponse.of(post, getCategoryByPost(post)))
+//                .map(PostGetResponse::of)
                 .toList();
     }
 
@@ -62,5 +64,9 @@ public class PostService {
         Post post = postJpaRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("해당하는 게시글이 없습니다."));
         postJpaRepository.delete(post);
+    }
+
+    private Category getCategoryByPost(Post post) {
+        return categoryService.getByCategoryId(post.getCategoryId());
     }
 }

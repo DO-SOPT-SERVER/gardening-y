@@ -23,11 +23,21 @@ public class Post {
     @JoinColumn(name = "member_id")
     private Member member;
 
+//    논리적으로 관계만 맺어둠
+    @Column(name = "category_id")
+    private CategoryId categoryId;
+
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "category_id")
+//    private Category category;
+
     @Builder
-    public Post(String title, String content, Member member) {
+    public Post(String title, String content, Member member, CategoryId categoryId) {
         this.title = title;
         this.content = content;
         this.member = member;
+        this.categoryId = categoryId;
     }
 
     public void updateContent(String content) {
