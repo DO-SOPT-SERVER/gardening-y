@@ -1,16 +1,16 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2-console
   #  config:
   #    activate:
   #      on-profile: local
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost/~/seminar2
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/dosopt?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: Abcd123!
 
   jpa:
     show-sql: true
@@ -19,4 +19,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        show_sql: true
+    defer-datasource-initialization: true
+
+# sql 파일 읽기
+  sql:
+    init:
+      mode: always
